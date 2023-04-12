@@ -12,9 +12,8 @@ import com.example.hidaya.databinding.FragmentWelcomeBinding
 
 class WelcomeFragment: Fragment() {
 
-    private lateinit var callbackFragment: CallbackFragment
+
     private lateinit var binding: FragmentWelcomeBinding
-    lateinit var nameVar : LoginFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,18 +25,10 @@ class WelcomeFragment: Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
-
-        val bundle = arguments
-        val name = bundle?.getString("name")
+        val name = arguments?.getString("name")
         val welcomeTxt = "Welcome $name"
         binding.tvWelcome.text = welcomeTxt
-    }
-
-
-
-    fun setCallbackFragment(cbFragment: CallbackFragment){
-        callbackFragment = cbFragment
     }
 }

@@ -15,10 +15,6 @@ import com.example.hidaya.databinding.FragmentLoginBinding
 class LoginFragment : Fragment(){
 
     private lateinit var binding: FragmentLoginBinding
-    lateinit var loginBtn: Button
-    lateinit var nameEt : EditText
-    lateinit var passwordET : EditText
-    private lateinit var callbackFragment: CallbackFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,21 +29,17 @@ class LoginFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val loginBtn = binding.btnLogin
-        val nameEt = binding.etName
-        val passwordET = binding.etPassword
 
+        binding.btnLogin.setOnClickListener {
 
-        loginBtn.setOnClickListener {
-
-            if(nameEt.text.toString() == ""){
+            if(binding.etName.text.toString() == ""){
                 Toast.makeText(
                     requireContext(),
                     "Enter your username",
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            else if (passwordET.text.toString() == ""){
+            else if (binding.etPassword.text.toString() == ""){
                 Toast.makeText(
                     requireContext(),
                     "Enter your password",
@@ -56,14 +48,9 @@ class LoginFragment : Fragment(){
             }
             else{
                 val bundle = Bundle()
-                bundle.putString("name", nameEt.text.toString())
-                callbackFragment.changeFragment(bundle)
+                bundle.putString("name", binding.etName.text.toString())
+                (activity as LoginActivity).showWelcomeFragment(bundle)
             }
-
         }
-    }
-
-    fun setCallbackFragment(cbFragment: CallbackFragment){
-        callbackFragment = cbFragment
     }
 }
