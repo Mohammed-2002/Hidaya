@@ -12,7 +12,6 @@ import com.example.hidaya.databinding.FragmentWelcomeBinding
 
 class WelcomeFragment: Fragment() {
 
-
     private lateinit var binding: FragmentWelcomeBinding
 
     override fun onCreateView(
