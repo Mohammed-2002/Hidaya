@@ -2,6 +2,7 @@ package com.example.hidaya
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hidaya.databinding.ActivityEventsBinding
@@ -36,11 +37,18 @@ class EventsActivity : AppCompatActivity() {
 
         binding.navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
-
             }
             true
         }
 
 
+
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // we need to do this to respond correctly to clicks on menu items, otherwise it won't be caught
+        if(menuBarToggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
