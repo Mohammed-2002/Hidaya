@@ -12,7 +12,10 @@
         android:theme="@style/Theme.Hidaya"
         tools:targetApi="31">
         <activity
-            android:name=".InschrijvingActivity"
+            android:name=".NewUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EventRegisterActivity"
             android:exported="false" />
         <activity
             android:name=".EventsActivity"

@@ -25,7 +25,7 @@ class EventsAdapter(val events: List<Event>): RecyclerView.Adapter<EventsAdapter
             findViewById<TextView>(R.id.event_time).text = currentEvent.time
             findViewById<TextView>(R.id.event_duration).text = currentEvent.durationInHour.toString()
             findViewById<Button>(R.id.register_button).setOnClickListener {
-                val intent = Intent(context, InschrijvingActivity::class.java)
+                val intent = Intent(context, EventRegisterActivity::class.java)
                 intent.putExtra("event", currentEvent)
                 context.startActivity(intent)
             }

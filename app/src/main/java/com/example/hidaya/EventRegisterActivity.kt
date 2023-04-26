@@ -2,18 +2,16 @@ package com.example.hidaya
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.hidaya.databinding.ActivityInschrijvingBinding
-import com.example.hidaya.databinding.ActivityLoginBinding
+import com.example.hidaya.databinding.ActivityEventRegisterBinding
 
 
+class EventRegisterActivity : AppCompatActivity() {
 
-class InschrijvingActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityInschrijvingBinding
+    private lateinit var binding: ActivityEventRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityInschrijvingBinding.inflate(layoutInflater)
+        binding = ActivityEventRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val event: Event = intent.getSerializableExtra("event") as Event

@@ -2,6 +2,7 @@
 
 package com.example.hidaya
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -51,6 +52,10 @@ class LoginFragment : Fragment(){
                 bundle.putString("name", binding.etName.text.toString())
                 (activity as LoginActivity).showWelcomeFragment(bundle)
             }
+        }
+        binding.registerButton.setOnClickListener(){
+            val intent = Intent(context, NewUserActivity::class.java)
+            context?.startActivity(intent)
         }
     }
 }
