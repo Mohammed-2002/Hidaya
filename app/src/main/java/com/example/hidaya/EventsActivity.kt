@@ -24,12 +24,11 @@ class EventsActivity : AppCompatActivity() {
     private lateinit var menuBarToggle: ActionBarDrawerToggle
     private lateinit var selectedEvents: List<Event>
 
+
     var lezing = Event("Reis door de werelden", "12/07/2023", "13:00 uur", 1.50, TypeEvent.LEZING)
     var iftar = Event("Iftar", "12/07/2023", "13:00 uur", 1.50,TypeEvent.FUN)
     var kahoot = Event("kahoot","12/07/2023", "13:00 uur", 3.0, TypeEvent.FUN)
     var lezingOverVatsen = Event("Het belang van vasten", "12/07/2023", "13:00 uur", 1.50,TypeEvent.LEZING)
-
-    var selectieLijst = listOf(TypeEventFilter(TypeEvent.FUN, false), TypeEventFilter(TypeEvent.LEZING, true) )
 
     val events = listOf<Event>(lezing,iftar,kahoot,lezingOverVatsen)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +37,7 @@ class EventsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         selectedEvents = getListOfSelectedEvents()
-        var adapter = EventsAdapter(selectedEvents)
+        var adapter = EventsAdapter(getListOfSelectedEvents())
         binding.eventsRecycleView.adapter = adapter
         binding.eventsRecycleView.layoutManager = LinearLayoutManager(this)
 
@@ -54,9 +53,21 @@ class EventsActivity : AppCompatActivity() {
             true
         }
 
-        val filterRecycleView = binding.navigationView.getHeaderView(0).findViewById<RecyclerView>(R.id.RecycleViewFilter)
-        filterRecycleView.layoutManager = LinearLayoutManager(this)
-        filterRecycleView.adapter = TypeEventFilterAdapter(selectieLijst)
+        binding.checkbox1.setOnCheckedChangeListener { _, _ ->
+
+            selectedEvents = getListOfSelectedEvents()
+            adapter = EventsAdapter(selectedEvents)
+            binding.eventsRecycleView.adapter = adapter
+        }
+
+        binding.checkbox2.setOnCheckedChangeListener { _, _ ->
+            selectedEvents = getListOfSelectedEvents()
+            adapter = EventsAdapter(selectedEvents)
+            binding.eventsRecycleView.adapter = adapter
+        }
+
+
+
 
 
     }
@@ -72,13 +83,16 @@ class EventsActivity : AppCompatActivity() {
     fun getListOfSelectedEvents() : List<Event> {
         var list = mutableListOf<Event>()
         events.forEach(){event ->
-            selectieLijst.forEach(){ select ->
-                if(event.type == select.type && select.geselecteerd){
-                    list.add(event)
-                }
+            if(binding.checkbox1.isChecked && event.type == TypeEvent.FUN){
+                list.add(event)
+            }
+            if(binding.checkbox2.isChecked && event.type == TypeEvent.LEZING ){
+                list.add(event)
             }
         }
         return list
     }
+
+
 
 }
