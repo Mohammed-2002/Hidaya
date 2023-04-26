@@ -1,23 +1,35 @@
 package com.example.hidaya
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.hidaya.databinding.ActivityEventsBinding
 import java.time.LocalTime
 import java.util.Date
-import com.google.android.material.navigation.NavigationView
+import android.widget.Button
+import androidx.core.view.get
+
+
 class EventsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEventsBinding
     private lateinit var menuBarToggle: ActionBarDrawerToggle
+    private lateinit var selectedEvents: List<Event>
 
-    var lezing = Event("Reis door de werelden", Date(122, 11, 31), LocalTime.of(13, 0,0), 1.50)
-    var iftar = Event("Iftar", Date(122, 4, 25), LocalTime.of(19, 30,0), 1.50)
-    var kahoot= Event("kahoot", Date(122, 5, 20), LocalTime.of(18, 30,0), 3.0)
-    var lezingOverVatsen = Event("Het belang van vasten", Date(122, 4, 7), LocalTime.of(17, 45,0), 1.50)
+    var lezing = Event("Reis door de werelden", "12/07/2023", "13:00 uur", 1.50, TypeEvent.LEZING)
+    var iftar = Event("Iftar", "12/07/2023", "13:00 uur", 1.50,TypeEvent.FUN)
+    var kahoot = Event("kahoot","12/07/2023", "13:00 uur", 3.0, TypeEvent.FUN)
+    var lezingOverVatsen = Event("Het belang van vasten", "12/07/2023", "13:00 uur", 1.50,TypeEvent.LEZING)
+
+    var selectieLijst = listOf(TypeEventFilter(TypeEvent.FUN, false), TypeEventFilter(TypeEvent.LEZING, true) )
 
     val events = listOf<Event>(lezing,iftar,kahoot,lezingOverVatsen)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +37,8 @@ class EventsActivity : AppCompatActivity() {
         binding = ActivityEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var adapter = EventsAdapter(events)
+        selectedEvents = getListOfSelectedEvents()
+        var adapter = EventsAdapter(selectedEvents)
         binding.eventsRecycleView.adapter = adapter
         binding.eventsRecycleView.layoutManager = LinearLayoutManager(this)
 
@@ -41,6 +54,9 @@ class EventsActivity : AppCompatActivity() {
             true
         }
 
+        val filterRecycleView = binding.navigationView.getHeaderView(0).findViewById<RecyclerView>(R.id.RecycleViewFilter)
+        filterRecycleView.layoutManager = LinearLayoutManager(this)
+        filterRecycleView.adapter = TypeEventFilterAdapter(selectieLijst)
 
 
     }
@@ -51,4 +67,18 @@ class EventsActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+
+    fun getListOfSelectedEvents() : List<Event> {
+        var list = mutableListOf<Event>()
+        events.forEach(){event ->
+            selectieLijst.forEach(){ select ->
+                if(event.type == select.type && select.geselecteerd){
+                    list.add(event)
+                }
+            }
+        }
+        return list
+    }
+
 }
