@@ -16,6 +16,7 @@ import java.time.LocalTime
 import java.util.Date
 import android.widget.Button
 import androidx.core.view.get
+import com.google.android.material.navigation.NavigationView
 
 
 class EventsActivity : AppCompatActivity() {
@@ -24,11 +25,6 @@ class EventsActivity : AppCompatActivity() {
     private lateinit var menuBarToggle: ActionBarDrawerToggle
     private lateinit var selectedEvents: List<Event>
 
-
-    var lezing = Event("Reis door de werelden", "12/07/2023", "13:00 uur", 1.50, TypeEvent.LEZING)
-    var iftar = Event("Iftar", "12/07/2023", "13:00 uur", 1.50,TypeEvent.FUN)
-    var kahoot = Event("kahoot","12/07/2023", "13:00 uur", 3.0, TypeEvent.FUN)
-    var lezingOverVatsen = Event("Het belang van vasten", "12/07/2023", "13:00 uur", 1.50,TypeEvent.LEZING)
 
     val events = listOf<Event>(lezing,iftar,kahoot,lezingOverVatsen)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,11 +37,21 @@ class EventsActivity : AppCompatActivity() {
         binding.eventsRecycleView.adapter = adapter
         binding.eventsRecycleView.layoutManager = LinearLayoutManager(this)
 
+        val currentUser = UserManger.currentUser
+        val navigationView = findViewById<NavigationView>(R.id.navigationView)
+        val headerView = navigationView.getHeaderView(0)
+        headerView.findViewById<TextView>(R.id.name).text = currentUser?.name
+        headerView.findViewById<TextView>(R.id.email).text = currentUser?.email
+
+
+
         menuBarToggle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.menu_open, R.string.menu_close)
         binding.drawerLayout.addDrawerListener(menuBarToggle)
         menuBarToggle.syncState()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
 
         binding.navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -65,10 +71,6 @@ class EventsActivity : AppCompatActivity() {
             adapter = EventsAdapter(selectedEvents)
             binding.eventsRecycleView.adapter = adapter
         }
-
-
-
-
 
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

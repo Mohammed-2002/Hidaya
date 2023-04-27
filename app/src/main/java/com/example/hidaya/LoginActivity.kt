@@ -42,13 +42,12 @@ class LoginActivity : AppCompatActivity() {
             addToBackStack(null)
             commit()
         }
-         // Stel een vertraging van 5 seconden in
-         val delayMillis = 500L // 5000 milliseconden = 5 seconden
+
+         val delayMillis = 500L
          Handler().postDelayed({
-             // Maak een intent om naar de andere activiteit te gaan
              val intent = Intent(this, EventsActivity::class.java)
              startActivity(intent)
-             finish() // Optioneel: sluit de huidige activiteit af
+             finish()
          }, delayMillis)
     }
 }

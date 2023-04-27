@@ -7,8 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.hidaya.databinding.FragmentLoginBinding
@@ -33,14 +31,17 @@ class LoginFragment : Fragment(){
 
         binding.btnLogin.setOnClickListener {
 
-            if(binding.etName.text.toString() == ""){
+            val name = binding.etName.text.toString()
+            val password = binding.etPassword.text.toString()
+
+            if(name.isEmpty()){
                 Toast.makeText(
                     requireContext(),
                     "Enter your username",
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            else if (binding.etPassword.text.toString() == ""){
+            else if (password == ""){
                 Toast.makeText(
                     requireContext(),
                     "Enter your password",
@@ -48,9 +49,16 @@ class LoginFragment : Fragment(){
                 ).show()
             }
             else{
-                val bundle = Bundle()
-                bundle.putString("name", binding.etName.text.toString())
-                (activity as LoginActivity).showWelcomeFragment(bundle)
+                val user = getUser(name,password)
+                if(user != null){
+                    UserManger.currentUser = user
+                    val bundle = Bundle()
+                    bundle.putString("name", binding.etName.text.toString())
+                    (activity as LoginActivity).showWelcomeFragment(bundle)
+                }
+                else{
+                    Toast.makeText(requireContext(), "email of password zijn niet correct of u bent nog niet ingeschreven", Toast.LENGTH_LONG).show()
+                }
             }
         }
         binding.registerButton.setOnClickListener(){
@@ -58,4 +66,16 @@ class LoginFragment : Fragment(){
             context?.startActivity(intent)
         }
     }
+
+    fun getUser(email: String, password: String): User? {
+        val userFileRepository = UserFileRepository(requireContext())
+        val userList = userFileRepository.load()
+        for (user in userList) {
+            if (user.email == email && user.password == password) {
+                return user
+            }
+        }
+        return null
+    }
+
 }
