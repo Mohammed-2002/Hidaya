@@ -34,9 +34,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-     fun showWelcomeFragment(bundle: Bundle?) {
+     fun showWelcomeFragment() {
         welcomeFragment = WelcomeFragment()
-        welcomeFragment.arguments = bundle
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.loginFC, welcomeFragment)
             addToBackStack(null)

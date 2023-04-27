@@ -52,9 +52,7 @@ class LoginFragment : Fragment(){
                 val user = getUser(name,password)
                 if(user != null){
                     UserManger.currentUser = user
-                    val bundle = Bundle()
-                    bundle.putString("name", binding.etName.text.toString())
-                    (activity as LoginActivity).showWelcomeFragment(bundle)
+                    (activity as LoginActivity).showWelcomeFragment()
                 }
                 else{
                     Toast.makeText(requireContext(), "email of password zijn niet correct of u bent nog niet ingeschreven", Toast.LENGTH_LONG).show()

@@ -26,7 +26,8 @@ class WelcomeFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
-        val name = arguments?.getString("name")
+        var currentUser = UserManger.currentUser
+        val name = currentUser?.name
         val welcomeTxt = "Welcome $name"
         binding.tvWelcome.text = welcomeTxt
     }
