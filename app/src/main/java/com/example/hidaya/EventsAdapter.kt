@@ -18,6 +18,7 @@ class EventsAdapter(val events: List<Event>): RecyclerView.Adapter<EventsAdapter
     }
 
     override fun onBindViewHolder(holder: EventsAdapter.EventViewHolder, position: Int) {
+        val currentUser = UserManger.currentUser
         val currentEvent : Event = events[position]
         holder.itemView.apply{
             findViewById<TextView>(R.id.event_subject).text = currentEvent.eventSubject
@@ -28,6 +29,13 @@ class EventsAdapter(val events: List<Event>): RecyclerView.Adapter<EventsAdapter
                 val intent = Intent(context, EventRegisterActivity::class.java)
                 intent.putExtra("event", currentEvent)
                 context.startActivity(intent)
+            }
+            if(currentUser?.isAdmin == true) {
+                this.setOnClickListener() {
+                    val intent = Intent(context, DeleteEventActivity::class.java)
+                    intent.putExtra("event", currentEvent)
+                    context.startActivity(intent)
+                }
             }
         }
     }

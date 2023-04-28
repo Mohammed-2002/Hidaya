@@ -1,6 +1,6 @@
 package com.example.hidaya
 
-interface UserRepository {
+interface Repository {
 
     fun load(): List<User>
 

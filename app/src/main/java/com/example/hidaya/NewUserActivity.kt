@@ -16,18 +16,21 @@ class NewUserActivity : AppCompatActivity() {
         binding = ActivityNewUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.inschrijfbuton.setOnClickListener(){
+        binding.inschrijfbutton.setOnClickListener(){
             val name = binding.editTextName.text.toString()
             val email = binding.editTextEmail.text.toString()
             val password = binding.editTextPassword.text.toString()
+            val ingevuldPasswordAdmin = binding.editTextAdminPassword.text.toString()
+
             if(name == "" || email == "" || password == "" ){
-                Toast.makeText(this, "Vul Alle velden in", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Vul alle verplichte velden in", Toast.LENGTH_LONG).show()
             }
             else{
                 val userFileRepository = UserFileRepository(this)
-                UserManger.currentUser = User(name,email,password)
+                val isAdmin = ingevuldPasswordAdmin.equals("IkBenAdmin")
+                UserManger.currentUser = User(name,email,password,isAdmin)
                 val userList = userFileRepository.load().toMutableList()
-                userList.add(User(name,email,password))
+                userList.add(User(name,email,password,isAdmin))
                 userFileRepository.save(userList)
                 val intent = Intent(this, EventsActivity::class.java)
                 startActivity(intent)

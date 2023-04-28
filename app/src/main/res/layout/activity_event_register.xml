@@ -15,22 +15,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:layout_marginTop="50dp">
+        android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
+            android:id="@+id/jaButton"
+            android:layout_width="66dp"
             android:layout_height="wrap_content"
-            android:text="Button 1" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button 2" />
+            android:text="Ja" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/neeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/neen_ga_terug" />
 
 </LinearLayout>

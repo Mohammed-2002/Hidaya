@@ -1,9 +1,11 @@
 package com.example.hidaya
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.widget.Toast
@@ -55,6 +57,10 @@ class EventsActivity : AppCompatActivity() {
 
         binding.navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
+                R.id.word_admin -> {
+                    val intent = Intent(this, WordAdminActivity::class.java)
+                    this.startActivity(intent)
+                }
             }
             true
         }
@@ -70,6 +76,14 @@ class EventsActivity : AppCompatActivity() {
             selectedEvents = getListOfSelectedEvents()
             adapter = EventsAdapter(selectedEvents)
             binding.eventsRecycleView.adapter = adapter
+        }
+
+        binding.btnAddEvent.setOnClickListener(){
+            val intent = Intent(this, AddNewEventActivity::class.java)
+            this.startActivity(intent)
+        }
+        if(currentUser?.isAdmin == false) {
+            binding.btnAddEvent.visibility = View.GONE
         }
 
     }

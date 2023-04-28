@@ -8,7 +8,7 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.FileReader
 
-class  UserFileRepository (val context: Context): UserRepository {
+class  UserFileRepository (val context: Context): Repository {
 
     override fun load(): List<User> {
         return try{
