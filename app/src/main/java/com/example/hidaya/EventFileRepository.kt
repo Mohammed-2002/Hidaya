@@ -8,24 +8,26 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.FileReader
 
-class  UserFileRepository (val context: Context): Repository <User>{
 
-    override fun load(): List<User> {
+
+class  EventFileRepository (val context: Context): Repository <Event> {
+
+    override fun load(): List<Event> {
         return try{
             val where: File = context.filesDir
-            val fileName = where.absolutePath + "/usersFile.txt"
+            val fileName = where.absolutePath + "/eventsFile.txt"
             val gson = Gson()
-            val userListType = object : TypeToken<List<User>>(){}.type
-            val model = gson.fromJson<List<User>>(FileReader(fileName),userListType)
+            val eventListType = object : TypeToken<List<Event>>(){}.type
+            val model = gson.fromJson<List<Event>>(FileReader(fileName),eventListType)
             model
         } catch (e: FileNotFoundException){
             emptyList()
         }
     }
 
-    override fun save(items: List<User>) {
-        val fileName = "usersFile.txt"
-        val fos:FileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE)
+    override fun save(items: List<Event>) {
+        val fileName = "eventsFile.txt"
+        val fos: FileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE)
         val gson = Gson()
         val json = gson.toJson(items)
         fos.write(json.toByteArray())

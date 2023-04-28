@@ -1,5 +1,6 @@
 package com.example.hidaya
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.hidaya.databinding.ActivityAddNewEventBinding
@@ -14,5 +15,26 @@ class AddNewEventActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddNewEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.btnAddEvent.setOnClickListener(){
+            val eventSubject = binding.etEventSubject.text.toString()
+            val date = binding.etDate.text.toString()
+            val time= binding.etTime.text.toString()
+            val durationInHour = binding.etEventDuration.toString()
+            var typeEvent: TypeEvent = if(binding.isEenLezing.isChecked){
+                TypeEvent.LEZING
+            } else{
+                TypeEvent.FUN
+            }
+            val eventFileRepository = EventFileRepository(this)
+            val events = eventFileRepository.load()
+            val event = Event(eventSubject,date,time, durationInHour ,typeEvent, mutableListOf())
+            events.toMutableList().apply {
+                add(event)
+                eventFileRepository.save(this)
+            }
+            val intent = Intent(this, EventsActivity::class.java)
+            this.startActivity(intent)
+        }
     }
 }

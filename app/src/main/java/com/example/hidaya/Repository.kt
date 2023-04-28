@@ -1,9 +1,8 @@
 package com.example.hidaya
 
-interface Repository {
+interface Repository<T> {
 
-    fun load(): List<User>
+    fun load(): List<T>
 
-    fun save(items: List<User>)
-
+    fun save(items: List<T>)
 }

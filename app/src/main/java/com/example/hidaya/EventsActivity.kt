@@ -28,14 +28,16 @@ class EventsActivity : AppCompatActivity() {
     private lateinit var selectedEvents: List<Event>
 
 
-    val events = listOf<Event>(lezing,iftar,kahoot,lezingOverVatsen)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        selectedEvents = getListOfSelectedEvents()
-        var adapter = EventsAdapter(getListOfSelectedEvents())
+        val eventFileRepository = EventFileRepository(this)
+        val events = eventFileRepository.load()
+        selectedEvents = getListOfSelectedEvents(events)
+        var adapter = EventsAdapter(getListOfSelectedEvents(events))
         binding.eventsRecycleView.adapter = adapter
         binding.eventsRecycleView.layoutManager = LinearLayoutManager(this)
 
@@ -67,13 +69,13 @@ class EventsActivity : AppCompatActivity() {
 
         binding.checkbox1.setOnCheckedChangeListener { _, _ ->
 
-            selectedEvents = getListOfSelectedEvents()
+            selectedEvents = getListOfSelectedEvents(events)
             adapter = EventsAdapter(selectedEvents)
             binding.eventsRecycleView.adapter = adapter
         }
 
         binding.checkbox2.setOnCheckedChangeListener { _, _ ->
-            selectedEvents = getListOfSelectedEvents()
+            selectedEvents = getListOfSelectedEvents(events)
             adapter = EventsAdapter(selectedEvents)
             binding.eventsRecycleView.adapter = adapter
         }
@@ -96,7 +98,8 @@ class EventsActivity : AppCompatActivity() {
     }
 
 
-    fun getListOfSelectedEvents() : List<Event> {
+
+    fun getListOfSelectedEvents(events: List<Event>) : List<Event> {
         var list = mutableListOf<Event>()
         events.forEach(){event ->
             if(binding.checkbox1.isChecked && event.type == TypeEvent.FUN){
