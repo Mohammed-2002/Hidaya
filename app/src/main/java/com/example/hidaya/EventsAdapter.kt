@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class EventsAdapter(val events: List<Event>): RecyclerView.Adapter<EventsAdapter.EventViewHolder>(){
@@ -25,10 +26,16 @@ class EventsAdapter(val events: List<Event>): RecyclerView.Adapter<EventsAdapter
             findViewById<TextView>(R.id.event_date).text = currentEvent.date
             findViewById<TextView>(R.id.event_time).text = currentEvent.time
             findViewById<TextView>(R.id.event_duration).text = currentEvent.durationInHour
-            findViewById<Button>(R.id.register_button).setOnClickListener {
-                val intent = Intent(context, EventRegisterActivity::class.java)
-                intent.putExtra("event", currentEvent)
-                context.startActivity(intent)
+            if(!currentEvent.users.contains(currentUser)) {
+                findViewById<Button>(R.id.register_button).setOnClickListener {
+                    val intent = Intent(context, EventRegisterActivity::class.java)
+                    intent.putExtra("event", currentEvent)
+                    context.startActivity(intent)
+                }
+                findViewById<Button>(R.id.unregister_button).visibility = View.GONE
+            }else{
+                findViewById<Button>(R.id.register_button).text = "Ingeschreven"
+                findViewById<Button>(R.id.register_button).setBackgroundColor(ContextCompat.getColor(context, android.R.color.darker_gray))
             }
             if(currentUser?.isAdmin == true) {
                 this.setOnClickListener() {
@@ -36,6 +43,11 @@ class EventsAdapter(val events: List<Event>): RecyclerView.Adapter<EventsAdapter
                     intent.putExtra("event", currentEvent)
                     context.startActivity(intent)
                 }
+            }
+            findViewById<Button>(R.id.unregister_button).setOnClickListener(){
+                val intent = Intent(context, EventUnregisterActivity::class.java)
+                intent.putExtra("event", currentEvent)
+                context.startActivity(intent)
             }
         }
     }

@@ -20,7 +20,7 @@ class WordAdminActivity : AppCompatActivity() {
         var currentUser = UserManger.currentUser
         binding.btnWordAdmin.setOnClickListener(){
             val ingevuldePassword = binding.etAdminPassword.text.toString()
-            if(ingevuldePassword.equals("IkBenAdmin")){
+            if(ingevuldePassword == "IkBenAdmin"){
                 val userRepository = UserFileRepository(this)
                 val userList = userRepository.load()
                 val userToUpdate = userList.find { it.email == currentUser?.email }

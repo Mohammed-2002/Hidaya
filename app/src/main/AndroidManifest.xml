@@ -12,6 +12,12 @@
         android:theme="@style/Theme.Hidaya"
         tools:targetApi="31">
         <activity
+            android:name=".EventUnregisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".eventUnregisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".WordAdminActivity"
             android:exported="false" />
         <activity

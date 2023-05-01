@@ -60,7 +60,15 @@ class EventsActivity : AppCompatActivity() {
         binding.navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.word_admin -> {
-                    val intent = Intent(this, WordAdminActivity::class.java)
+                    if(currentUser?.isAdmin == true){
+                        Toast.makeText(this, "U bent al Admin", Toast.LENGTH_SHORT).show()
+                    }else {
+                        val intent = Intent(this, WordAdminActivity::class.java)
+                        this.startActivity(intent)
+                    }
+                }
+                R.id.menu_logout -> {
+                    val intent = Intent(this, LoginActivity::class.java)
                     this.startActivity(intent)
                 }
             }

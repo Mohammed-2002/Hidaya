@@ -55,7 +55,7 @@ class LoginFragment : Fragment(){
                     (activity as LoginActivity).showWelcomeFragment()
                 }
                 else{
-                    Toast.makeText(requireContext(), "email of password zijn niet correct of u bent nog niet ingeschreven", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "email of password zijn niet correct of u bent nog niet ingeschreven", Toast.LENGTH_SHORT).show()
                 }
             }
         }
