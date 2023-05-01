@@ -2,6 +2,7 @@
 
 package com.example.hidaya
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.hidaya.databinding.FragmentLoginBinding
+import com.google.gson.Gson
+
+
 
 class LoginFragment : Fragment(){
 
@@ -52,6 +56,11 @@ class LoginFragment : Fragment(){
                 val user = getUser(name,password)
                 if(user != null){
                     UserManger.currentUser = user
+                    val gson = Gson()
+                    val situation = Situation(true,user)
+                    val situationInJson = gson.toJson(situation)
+                    val sharedPref = requireContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+                    sharedPref.edit().putString("Situation", situationInJson).apply()
                     (activity as LoginActivity).showWelcomeFragment()
                 }
                 else{

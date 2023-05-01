@@ -17,6 +17,7 @@ class DeleteEventActivity : AppCompatActivity() {
 
         binding.btnNo.setOnClickListener(){
             val intent = Intent(this, EventsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             this.startActivity(intent)
         }
         binding.btnYes.setOnClickListener(){
@@ -28,6 +29,7 @@ class DeleteEventActivity : AppCompatActivity() {
                 eventFileRepository.save(this)
             }
             val intent = Intent(this, EventsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             this.startActivity(intent)
         }
     }

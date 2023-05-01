@@ -20,7 +20,7 @@ class AddNewEventActivity : AppCompatActivity() {
             val eventSubject = binding.etEventSubject.text.toString()
             val date = binding.etDate.text.toString()
             val time= binding.etTime.text.toString()
-            val durationInHour = binding.etEventDuration.toString()
+            val durationInHour = binding.etEventDuration.text.toString()
             var typeEvent: TypeEvent = if(binding.isEenLezing.isChecked){
                 TypeEvent.LEZING
             } else{
@@ -34,6 +34,7 @@ class AddNewEventActivity : AppCompatActivity() {
                 eventFileRepository.save(this)
             }
             val intent = Intent(this, EventsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             this.startActivity(intent)
         }
     }

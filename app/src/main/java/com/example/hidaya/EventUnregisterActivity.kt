@@ -19,6 +19,7 @@ class EventUnregisterActivity : AppCompatActivity() {
         val event: Event = intent.getSerializableExtra("event") as Event
         binding.btnNee.setOnClickListener(){
             val intent = Intent(this, EventsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             this.startActivity(intent)
         }
         binding.btnJa.setOnClickListener(){
@@ -29,6 +30,7 @@ class EventUnregisterActivity : AppCompatActivity() {
                 eventToUpdate?.users?.remove(currentUser)
                 eventFileRepository.save(eventsList)
                 val intent = Intent(this, EventsActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 this.startActivity(intent)
             }
 

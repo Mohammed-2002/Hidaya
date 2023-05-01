@@ -20,6 +20,7 @@ class EventRegisterActivity : AppCompatActivity() {
         binding.textView.text = "Ben je zeker dat je wil inschrijven voor event ${event.eventSubject}"
         binding.neeButton.setOnClickListener(){
             val intent = Intent(this, EventsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             this.startActivity(intent)
         }
         binding.jaButton.setOnClickListener(){
@@ -30,6 +31,7 @@ class EventRegisterActivity : AppCompatActivity() {
                 eventToUpdate?.users?.add(currentUser)
                 eventFileRepository.save(eventsList)
                 val intent = Intent(this, EventsActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 this.startActivity(intent)
             }
 

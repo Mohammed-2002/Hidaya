@@ -19,6 +19,7 @@ import java.util.Date
 import android.widget.Button
 import androidx.core.view.get
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.Gson
 
 
 class EventsActivity : AppCompatActivity() {
@@ -68,7 +69,13 @@ class EventsActivity : AppCompatActivity() {
                     }
                 }
                 R.id.menu_logout -> {
+                    val gson = Gson()
+                    val situation = Situation(false,null)
+                    val situationInJson = gson.toJson(situation)
+                    val sharedPref = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+                    sharedPref.edit().putString("Situation", situationInJson).apply()
                     val intent = Intent(this, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     this.startActivity(intent)
                 }
             }
