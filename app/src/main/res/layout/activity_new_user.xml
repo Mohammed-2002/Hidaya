@@ -2,46 +2,74 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/textViewSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+
+        android:layout_marginTop="20dp"
+        android:text="Registreren"
+        android:textColor="@color/hidaya_blue"
+        android:textSize="60sp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/editTextName"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
         android:hint="Naam" />
 
     <EditText
         android:id="@+id/editTextEmail"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
         android:hint="E-mailadres" />
 
     <EditText
         android:id="@+id/editTextPassword"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
         android:hint="Wachtwoord"
         android:inputType="textPassword" />
 
-    <TextView
-        android:id="@+id/textViewAdminPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="In te vullen enkel indien je een admin bent"
-        android:visibility="visible" />
-
     <EditText
         android:id="@+id/editTextAdminPassword"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:hint="Admin wachtwoord"
+        android:layout_marginTop="20dp"
         android:inputType="textPassword"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textViewAdminPassword"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
+        android:text="In te vullen enkel indien je een admin bent"
         android:visibility="visible" />
 
     <Button
         android:id="@+id/inschrijfbutton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/hidaya_blue"
         android:text="Verder" />
+
+
 
 </LinearLayout>

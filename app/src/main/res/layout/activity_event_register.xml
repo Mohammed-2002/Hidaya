@@ -9,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
-        android:text="Ben je zeker dat je wil inschrijven voor de event" />
+        android:layout_marginTop="100dp"
+        android:text="Ben je zeker dat je je wil inschrijven voor dit evenement?" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,8 +29,9 @@
 
     <Button
         android:id="@+id/neeButton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="@string/neen_ga_terug" />
 
 </LinearLayout>

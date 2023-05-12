@@ -9,43 +9,45 @@
     tools:context=".WordAdminActivity">
 
     <!-- Plain text -->
-    <TextView
-        android:id="@+id/tvInstruction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Geef de vooraf gegeven password in om Admin te worden"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
 
     <!-- TextView -->
+    <TextView
+        android:id="@+id/tvInstruction"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="116dp"
+        android:gravity="center_horizontal"
+        android:text="Typ het vooraf gegeven wachtwoord om Admin te worden"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/etAdminPassword"
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@+id/tvInstruction"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvInstruction" />
 
     <!-- Button -->
     <Button
         android:id="@+id/btnWordAdmin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Word admin"
         android:background="#0066cc"
+        android:text="Word admin"
         android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.467"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.275" />
+        app:layout_constraintVertical_bias="0.373" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
