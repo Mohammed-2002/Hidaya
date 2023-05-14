@@ -8,6 +8,8 @@
         android:title="Uitloggen"/>
     <item
         android:id="@+id/word_admin"
-        android:title="Word Admin"/>
-
+        android:title="Word admin"/>
+    <item
+        android:id="@+id/change_photo"
+        android:title="Change photo"/>
 </menu>

@@ -1,9 +1,13 @@
 package com.example.hidaya
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
@@ -18,8 +22,10 @@ import java.time.LocalTime
 import java.util.Date
 import android.widget.Button
 import androidx.core.view.get
+import com.example.hidaya.UserManger.currentUser
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
+import java.io.ByteArrayOutputStream
 
 
 class EventsActivity : AppCompatActivity() {
@@ -68,6 +74,10 @@ class EventsActivity : AppCompatActivity() {
                         this.startActivity(intent)
                     }
                 }
+                R.id.change_photo -> {
+                    val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    startActivityForResult(takePictureIntent, 1)
+                }
                 R.id.menu_logout -> {
                     val gson = Gson()
                     val situation = Situation(false,null)
@@ -80,6 +90,15 @@ class EventsActivity : AppCompatActivity() {
                 }
             }
             true
+        }
+        val navView= findViewById<NavigationView>(R.id.navigationView)
+        val headView = navView.getHeaderView(0)
+        val imageView = headView.findViewById<ImageView>(R.id.profile_image)
+        if (currentUser?.photoBytes != null) {
+            val bitmap = BitmapFactory.decodeByteArray(currentUser?.photoBytes, 0, currentUser?.photoBytes!!.size)
+            imageView.setImageBitmap(bitmap)
+        } else {
+            imageView.setImageResource(R.drawable.user)
         }
 
         binding.checkbox1.setOnCheckedChangeListener { _, _ ->
@@ -103,6 +122,25 @@ class EventsActivity : AppCompatActivity() {
             binding.btnAddEvent.visibility = View.GONE
         }
 
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+            val imageByteArray = byteArrayOutputStream.toByteArray()
+            // Bewaar de imageByteArray in de datamember van de User klasse
+            currentUser?.photoBytes = imageByteArray
+
+            val userRepository = UserFileRepository(this)
+            val userList = userRepository.load()
+            val userToUpdate = userList.find { it.email == currentUser?.email }
+            userToUpdate?.photoBytes = imageByteArray
+            userRepository.save(userList)
+
+            recreate()
+        }
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // we need to do this to respond correctly to clicks on menu items, otherwise it won't be caught
