@@ -1,5 +1,6 @@
 package com.example.hidaya
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -8,6 +9,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.example.hidaya.databinding.ActivityEventsBinding
 import com.example.hidaya.databinding.ActivityNewUserBinding
+import com.google.gson.Gson
 import java.io.ByteArrayOutputStream
 
 class NewUserActivity : AppCompatActivity() {
@@ -33,10 +35,18 @@ class NewUserActivity : AppCompatActivity() {
             else{
                 val userFileRepository = UserFileRepository(this)
                 val isAdmin = ingevuldPasswordAdmin.equals("IkBenAdmin")
-                UserManger.currentUser = User(name,email,password,isAdmin, bitmapToByteArray(userPhoto))
+                val user = User(name,email,password,isAdmin, bitmapToByteArray(userPhoto))
+                UserManger.currentUser = user
                 val userList = userFileRepository.load().toMutableList()
                 userList.add(User(name,email,password,isAdmin, bitmapToByteArray(userPhoto)))
                 userFileRepository.save(userList)
+
+                val gson = Gson()
+                val situation = Situation(true,user.email)
+                val situationInJson = gson.toJson(situation)
+                val sharedPref = this.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+                sharedPref.edit().putString("Situation", situationInJson).apply()
+
                 val intent = Intent(this, EventsActivity::class.java)
                 startActivity(intent)
             }
