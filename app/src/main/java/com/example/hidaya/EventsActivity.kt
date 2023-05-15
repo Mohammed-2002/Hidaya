@@ -78,6 +78,7 @@ class EventsActivity : AppCompatActivity() {
                     val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     startActivityForResult(takePictureIntent, 1)
                 }
+
                 R.id.menu_logout -> {
                     val gson = Gson()
                     val situation = Situation(false,null)
@@ -131,8 +132,18 @@ class EventsActivity : AppCompatActivity() {
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
             val imageByteArray = byteArrayOutputStream.toByteArray()
             // Bewaar de imageByteArray in de datamember van de User klasse
-            currentUser?.photoBytes = imageByteArray
 
+
+            val  eventFileRepository = EventFileRepository(this)
+            val eventsList = eventFileRepository.load()
+            eventsList.forEach() { it ->
+                if(it.users.contains(currentUser)) {
+                    it?.users?.find { it == currentUser }?.photoBytes = imageByteArray
+                }
+            }
+            eventFileRepository.save(eventsList)
+
+            currentUser?.photoBytes = imageByteArray
             val userRepository = UserFileRepository(this)
             val userList = userRepository.load()
             val userToUpdate = userList.find { it.email == currentUser?.email }
@@ -140,6 +151,7 @@ class EventsActivity : AppCompatActivity() {
             userRepository.save(userList)
 
             recreate()
+
         }
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
