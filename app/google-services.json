@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "49051110507",
+    "project_id": "hidaya-73ee3",
+    "storage_bucket": "hidaya-73ee3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49051110507:android:c60c7016363f586463f52e",
+        "android_client_info": {
+          "package_name": "com.example.hidaya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "49051110507-oc0f42ht1f9lvoe3h5he5bdoaihuabgo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hidaya",
+            "certificate_hash": "b801136f456f323ca3fc733ba4f2a8ac81881ebe"
+          }
+        },
+        {
+          "client_id": "49051110507-akitt1dg7f5s2p8dr6bqqe39piupguvi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXePL8Zz7hxwjYwNRrmjuaaNdxNFf3JEs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49051110507-akitt1dg7f5s2p8dr6bqqe39piupguvi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

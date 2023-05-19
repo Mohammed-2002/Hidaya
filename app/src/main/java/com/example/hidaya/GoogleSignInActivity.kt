@@ -1,26 +1,88 @@
 package com.example.hidaya
 
-import android.content.IntentSender
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.ImageView
-import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.helper.widget.MotionEffect.TAG
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.identity.Identity
-import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 
 
 class GoogleSignInActivity : AppCompatActivity() {
 
+    val RC_SIGN_IN = 123
+    private lateinit var googleSignInBtn : Button
 
+    private lateinit var gso: GoogleSignInOptions
+//    private lateinit var gsc: GoogleSignInClient
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_login)
+
+        googleSignInBtn = findViewById(R.id.googleBtn)
+
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        val gsc = GoogleSignIn.getClient(this, gso)
+
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+
+        if (account != null){
+            goToWelcome()
+        }
+        googleSignInBtn.setOnClickListener{
+            val signInIntent = gsc.signInIntent
+            startActivityForResult(signInIntent,RC_SIGN_IN)
+        }
+
+    }
+
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+        }
+    }
+
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+
+            // Signed in successfully, show authenticated UI.
+            goToWelcome()
+        } catch (e: ApiException) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            goToWelcome()
+        }
+    }
+
+    private fun goToWelcome() {
+        val intent = Intent(this, WelcomeFragment::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+
+
+
+
+    /*
     //private lateinit var binding: ActivityGoogleSignInBinding
     private lateinit var oneTapClient: SignInClient
     private lateinit var signUpRequest: BeginSignInRequest
@@ -31,6 +93,25 @@ class GoogleSignInActivity : AppCompatActivity() {
         setContentView(R.layout.fragment_login)  //werken met R omdat ik krijg error bij binder om de een of andere rede
 
         val googlebtn = findViewById<ImageView>(R.id.imageButtonGoogle)
+
+        // Configure sign-in to request the user's ID, email address, and basic
+// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        // Configure sign-in to request the user's ID, email address, and basic
+// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        var mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        // Check for existing Google Sign In account, if the user is already signed in
+// the GoogleSignInAccount will be non-null.
+        // Check for existing Google Sign In account, if the user is already signed in
+// the GoogleSignInAccount will be non-null.
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        //updateUI(account)
+
 
 
         oneTapClient = Identity.getSignInClient(this)
@@ -74,7 +155,7 @@ class GoogleSignInActivity : AppCompatActivity() {
                 }
             }
 
-        googlebtn.setOnClickListener { view ->
+       googlebtn.setOnClickListener { view ->
             oneTapClient.beginSignIn(signUpRequest)
                 .addOnSuccessListener(this) { result ->
                     try {
@@ -90,10 +171,11 @@ class GoogleSignInActivity : AppCompatActivity() {
                 }
         }
 
-
     }
 
 
 
+
+*/
 
 }

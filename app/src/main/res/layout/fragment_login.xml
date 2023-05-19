@@ -65,30 +65,13 @@
         android:backgroundTint="@color/hidaya_blue"
         android:text="Sign up" />
 
-    <LinearLayout
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/googleBtn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="60dp"
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="75dp"
-            android:layout_weight="1"
-            android:text="of sign in met"
-            android:textSize="16sp"
-            android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/imageButtonGoogle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="50dp"
-            app:srcCompat="@drawable/common_google_signin_btn_icon_light_normal" />
-
-    </LinearLayout>
 
 
 </LinearLayout>
