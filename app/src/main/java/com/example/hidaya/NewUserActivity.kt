@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.hidaya.databinding.ActivityEventsBinding
 import com.example.hidaya.databinding.ActivityNewUserBinding
 import com.google.gson.Gson
 import java.io.ByteArrayOutputStream
