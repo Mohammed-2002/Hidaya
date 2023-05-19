@@ -26,10 +26,20 @@ class SplashActivity : AppCompatActivity() {
         val situation = gson.fromJson(json, Situation::class.java)
         if(situation != null){
             if(situation.isLogged){
-                UserManger.currentUser = situation.loggedUser
+                UserManger.currentUser = situation.loggedUserEmail?.let { getUser(it) }
                 return true;
             }
         }
         return false;
+    }
+    private fun getUser(email: String): User? {
+        val userFileRepository = UserFileRepository(this)
+        val userList = userFileRepository.load()
+        for (user in userList) {
+            if (user.email == email) {
+                return user
+            }
+        }
+        return null
     }
 }

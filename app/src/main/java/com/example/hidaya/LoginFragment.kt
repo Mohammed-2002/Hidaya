@@ -57,7 +57,7 @@ class LoginFragment : Fragment(){
                 if(user != null){
                     UserManger.currentUser = user
                     val gson = Gson()
-                    val situation = Situation(true,user)
+                    val situation = Situation(true,user.email)
                     val situationInJson = gson.toJson(situation)
                     val sharedPref = requireContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
                     sharedPref.edit().putString("Situation", situationInJson).apply()
@@ -74,7 +74,7 @@ class LoginFragment : Fragment(){
         }
     }
 
-    fun getUser(email: String, password: String): User? {
+    private fun getUser(email: String, password: String): User? {
         val userFileRepository = UserFileRepository(requireContext())
         val userList = userFileRepository.load()
         for (user in userList) {

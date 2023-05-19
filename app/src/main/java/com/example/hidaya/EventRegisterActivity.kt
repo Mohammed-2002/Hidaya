@@ -3,6 +3,7 @@ package com.example.hidaya
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.example.hidaya.databinding.ActivityEventRegisterBinding
 
 
@@ -29,12 +30,13 @@ class EventRegisterActivity : AppCompatActivity() {
                 val eventsList = eventFileRepository.load()
                 var eventToUpdate = eventsList.find { it == event }
                 eventToUpdate?.users?.add(currentUser)
+                Toast.makeText(this, "user added", Toast.LENGTH_SHORT).show()
                 eventFileRepository.save(eventsList)
                 val intent = Intent(this, EventsActivity::class.java)
+                intent.putExtra("event", event)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 this.startActivity(intent)
             }
-
         }
     }
 }
