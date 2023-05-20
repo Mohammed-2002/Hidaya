@@ -142,8 +142,14 @@ class LoginFragment : Fragment(){
         auth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful){
                 val userPhoto = BitmapFactory.decodeResource(resources, R.drawable.user)
-                val user = User(account.displayName.toString(),account.email.toString(),"",false, bitmapToByteArray(userPhoto))
-                if(user != null){
+                var user = getUser(account.email.toString(),"")
+                if(user == null){
+                    user = User(account.displayName.toString(),account.email.toString(),"",false, bitmapToByteArray(userPhoto))
+                    val userFileRepository = UserFileRepository(requireContext())
+                    val userList = userFileRepository.load().toMutableList()
+                    userList.add(user)
+                    userFileRepository.save(userList)
+                }
                     UserManger.currentUser = user
                     val gson = Gson()
                     val situation = Situation(true,user.email)
@@ -151,7 +157,7 @@ class LoginFragment : Fragment(){
                     val sharedPref = requireContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
                     sharedPref.edit().putString("Situation", situationInJson).apply()
                     (activity as LoginActivity).showWelcomeFragment()
-                }
+
             }else{
                 Toast.makeText(requireContext(), it.exception.toString() , Toast.LENGTH_SHORT).show()
 
