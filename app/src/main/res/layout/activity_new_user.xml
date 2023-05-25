@@ -22,7 +22,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-
+        android:inputType="text"
         android:hint="Naam" />
 
     <EditText
@@ -31,7 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:hint="E-mailadres" />
+        android:hint="E-mailadres"
+        android:inputType="text"/>
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -40,7 +41,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:hint="Wachtwoord"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        />
 
     <EditText
         android:id="@+id/editTextAdminPassword"

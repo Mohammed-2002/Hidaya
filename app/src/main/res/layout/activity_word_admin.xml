@@ -11,19 +11,23 @@
     <!-- Plain text -->
 
     <!-- TextView -->
+
+    <!-- Button -->
     <TextView
         android:id="@+id/tvInstruction"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="116dp"
         android:gravity="center_horizontal"
-        android:text="Typ het vooraf gegeven wachtwoord om Admin te worden"
+        android:text="Typ het vooraf gegeven wachtwoord om Admin te worden, nadien moet je opnieuw inloggen"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnWordAdmin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.028" />
 
     <EditText
         android:id="@+id/etAdminPassword"
@@ -32,11 +36,13 @@
         android:layout_marginTop="32dp"
         android:ems="10"
         android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/btnWordAdmin"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvInstruction" />
+        app:layout_constraintTop_toBottomOf="@+id/tvInstruction"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <!-- Button -->
     <Button
         android:id="@+id/btnWordAdmin"
         android:layout_width="wrap_content"
@@ -48,6 +54,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.373" />
+        app:layout_constraintVertical_bias="0.571" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

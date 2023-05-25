@@ -10,36 +10,27 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (isUserLoggedIn()) {
-            startActivity(Intent(this, EventsActivity::class.java))
-        } else {
-            startActivity(Intent(this, LoginActivity::class.java))
-        }
+        isUserLoggedIn()
 
         finish()
     }
 
-    private fun isUserLoggedIn(): Boolean {
+    private fun isUserLoggedIn() {
         val sharedPref = getSharedPreferences("my_prefs", MODE_PRIVATE)
         val json = sharedPref.getString("Situation", "")
         val gson = Gson()
         val situation = gson.fromJson(json, Situation::class.java)
         if(situation != null){
             if(situation.isLogged){
-                UserManger.currentUser = situation.loggedUserEmail?.let { getUser(it) }
-                return true;
+                situation.loggedUserEmail?.let {
+                    UserFileRepository.getUser(it){toGetUser ->
+                        UserManger.currentUser = toGetUser
+                        startActivity(Intent(this, EventsActivity::class.java))
+                    }
+                }
             }
         }
-        return false;
-    }
-    private fun getUser(email: String): User? {
-        val userFileRepository = UserFileRepository(this)
-        val userList = userFileRepository.load()
-        for (user in userList) {
-            if (user.email == email) {
-                return user
-            }
-        }
-        return null
+        startActivity(Intent(this, LoginActivity::class.java))
+
     }
 }

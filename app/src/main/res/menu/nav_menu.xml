@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_contact"
-        android:title="Contacteer ons"/>
-    <item
-        android:id="@+id/menu_logout"
-        android:title="Uitloggen"/>
+        android:id="@+id/change_photo"
+        android:title="Profielfoto aanpassen"/>
     <item
         android:id="@+id/word_admin"
         android:title="Word admin"/>
     <item
-        android:id="@+id/change_photo"
-        android:title="Change photo"/>
+        android:id="@+id/menu_logout"
+        android:title="Uitloggen"/>
+
 </menu>

@@ -4,9 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.hidaya.databinding.ActivityAddNewEventBinding
 import com.example.hidaya.databinding.ActivityWordAdminBinding
-import java.security.KeyStore.TrustedCertificateEntry
 
 class WordAdminActivity : AppCompatActivity() {
 
@@ -20,18 +18,21 @@ class WordAdminActivity : AppCompatActivity() {
         var currentUser = UserManger.currentUser
         binding.btnWordAdmin.setOnClickListener(){
             val ingevuldePassword = binding.etAdminPassword.text.toString()
-            if(ingevuldePassword == "IkBenAdmin"){
-                val userRepository = UserFileRepository(this)
-                val userList = userRepository.load()
-                val userToUpdate = userList.find { it.email == currentUser?.email }
-                userToUpdate?.isAdmin = true
-                userRepository.save(userList)
-                val intent = Intent(this, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                this.startActivity(intent)
+            if(ingevuldePassword == "IkBenAdmin") {
+                if (currentUser != null) {
+                    UserFileRepository.getUser(currentUser.email){userToUpdate ->
+                        userToUpdate?.isAdmin = true
+                        if (userToUpdate != null) {
+                            UserFileRepository.saveUser(userToUpdate)
+                        }
+                        val intent = Intent(this, LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        this.startActivity(intent)
+                    }
+                }
             }
             else{
-                Toast.makeText(this, "Pasword is incorrect", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "wachtwoord is niet correct", Toast.LENGTH_SHORT).show()
             }
         }
     }

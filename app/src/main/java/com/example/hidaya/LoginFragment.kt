@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import com.example.hidaya.UserFileRepository.Companion.getUser
 import com.example.hidaya.databinding.FragmentLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -23,8 +24,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.gson.Gson
-import java.io.ByteArrayOutputStream
-
 
 
 class LoginFragment : Fragment(){
@@ -62,10 +61,10 @@ class LoginFragment : Fragment(){
 
         binding.btnLogin.setOnClickListener {
 
-            val name = binding.etName.text.toString()
+            val email = binding.etMail.text.toString()
             val password = binding.etPassword.text.toString()
 
-            if(name.isEmpty()){
+            if(email.isEmpty()){
                 Toast.makeText(
                     requireContext(),
                     "Enter your username",
@@ -80,18 +79,24 @@ class LoginFragment : Fragment(){
                 ).show()
             }
             else{
-                val user = getUser(name,password)
-                if(user != null){
-                    UserManger.currentUser = user
-                    val gson = Gson()
-                    val situation = Situation(true,user.email)
-                    val situationInJson = gson.toJson(situation)
-                    val sharedPref = requireContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
-                    sharedPref.edit().putString("Situation", situationInJson).apply()
-                    (activity as LoginActivity).showWelcomeFragment()
-                }
-                else{
-                    Toast.makeText(requireContext(), "email of password zijn niet correct of u bent nog niet ingeschreven", Toast.LENGTH_SHORT).show()
+                getUser(email) { retrievedUser ->
+                    var user: User? = retrievedUser
+
+                    if (user != null && user.password == password){
+                        UserManger.currentUser = user
+                        val gson = Gson()
+                        val situation = Situation(true, user.email)
+                        val situationInJson = gson.toJson(situation)
+                        val sharedPref = requireContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+                        sharedPref.edit().putString("Situation", situationInJson).apply()
+                        (activity as LoginActivity).showWelcomeFragment()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "email of password zijn niet correct of u bent nog niet ingeschreven",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
@@ -99,17 +104,6 @@ class LoginFragment : Fragment(){
             val intent = Intent(context, NewUserActivity::class.java)
             context?.startActivity(intent)
         }
-    }
-
-    private fun getUser(email: String, password: String): User? {
-        val userFileRepository = UserFileRepository(requireContext())
-        val userList = userFileRepository.load()
-        for (user in userList) {
-            if (user.email == email && user.password == password) {
-                return user
-            }
-        }
-        return null
     }
 
     private fun signInGoogle(){
@@ -142,32 +136,33 @@ class LoginFragment : Fragment(){
         auth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful){
                 val userPhoto = BitmapFactory.decodeResource(resources, R.drawable.user)
-                var user = getUser(account.email.toString(),"")
-                if(user == null){
-                    user = User(account.displayName.toString(),account.email.toString(),"",false, bitmapToByteArray(userPhoto))
-                    val userFileRepository = UserFileRepository(requireContext())
-                    val userList = userFileRepository.load().toMutableList()
-                    userList.add(user)
-                    userFileRepository.save(userList)
-                }
+                var user:User? = null
+                getUser(account.email.toString()) { toGetUser ->
+                    user = toGetUser
+                    if (user == null) {
+                        user = User(
+                            account.displayName.toString(),
+                            account.email.toString(),
+                            "",
+                            false,
+                            bitmapToBase64(userPhoto)
+                        )
+                        UserFileRepository.saveUser(user!!)
+                    }
                     UserManger.currentUser = user
                     val gson = Gson()
-                    val situation = Situation(true,user.email)
+                    val situation = Situation(true, user!!.email)
                     val situationInJson = gson.toJson(situation)
-                    val sharedPref = requireContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+                    val sharedPref =
+                        requireContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
                     sharedPref.edit().putString("Situation", situationInJson).apply()
                     (activity as LoginActivity).showWelcomeFragment()
-
+                }
             }else{
                 Toast.makeText(requireContext(), it.exception.toString() , Toast.LENGTH_SHORT).show()
-
             }
         }
     }
-    fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
-        val outputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream)
-        return outputStream.toByteArray()
-    }
-
 }
+
+

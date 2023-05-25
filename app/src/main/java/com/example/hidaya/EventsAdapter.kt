@@ -27,7 +27,7 @@ class EventsAdapter(val events: List<Event>): RecyclerView.Adapter<EventsAdapter
             findViewById<TextView>(R.id.event_date).text = "Datum: ${currentEvent.date}"
             findViewById<TextView>(R.id.event_time).text = "Tijdstip: ${currentEvent.time}"
             findViewById<TextView>(R.id.event_duration).text = "Duur: ${currentEvent.durationInHour}"
-            if(!currentEvent.users.contains(currentUser)) {
+            if(!currentEvent.usersMails.contains(currentUser?.email)) {
                 findViewById<Button>(R.id.register_button).setOnClickListener {
                     val intent = Intent(context, EventRegisterActivity::class.java)
                     intent.putExtra("event", currentEvent)

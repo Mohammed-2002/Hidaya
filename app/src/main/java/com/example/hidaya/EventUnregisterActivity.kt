@@ -24,16 +24,16 @@ class EventUnregisterActivity : AppCompatActivity() {
         }
         binding.btnJa.setOnClickListener(){
             if (currentUser != null) {
-                val  eventFileRepository = EventFileRepository(this)
-                val eventsList = eventFileRepository.load()
-                var eventToUpdate = eventsList.find { it == event }
-                eventToUpdate?.users?.remove(currentUser)
-                eventFileRepository.save(eventsList)
-                val intent = Intent(this, EventsActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                this.startActivity(intent)
+                EventFileRepository.getEvent(event.eventSubject) {eventToUpdate->
+                    eventToUpdate?.usersMails?.remove(currentUser.email)
+                    if (eventToUpdate != null) {
+                        EventFileRepository.saveEvent(eventToUpdate)
+                    }
+                    val intent = Intent(this, EventsActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    this.startActivity(intent)
+                }
             }
-
         }
 
     }

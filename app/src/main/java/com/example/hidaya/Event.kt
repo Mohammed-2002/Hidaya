@@ -6,5 +6,7 @@ import java.util.Date
 
 @Serializable
 
-data class Event(val eventSubject: String, val date: String, val time: String, val durationInHour: String, val type: TypeEvent,var users: MutableList<User>) : java.io.Serializable{
+data class Event(val eventSubject: String, val date: String, val time: String, val durationInHour: String, val type: TypeEvent,var usersMails: MutableList<String>) : java.io.Serializable{
+    constructor() : this("", "", "", "", TypeEvent.LEZING, mutableListOf())
 }
+
